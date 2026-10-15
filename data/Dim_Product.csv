@@ -1,0 +1,401 @@
+Product_ID,Category,Unit_Cost,Margin
+1,Electronics,146.31,0.134
+2,Beauty & Personal Care,30.98,0.305
+3,Electronics,280.23,0.19
+4,Home & Living,76.09,0.309
+5,Fashion,48.39,0.478
+6,Fashion,24.12,0.485
+7,Home & Living,110.12,0.24
+8,Home & Living,87.84,0.328
+9,Home & Living,44.93,0.31
+10,Beauty & Personal Care,57.38,0.423
+11,Fashion,39.13,0.452
+12,Beauty & Personal Care,59.53,0.364
+13,Beauty & Personal Care,9.56,0.259
+14,Groceries,32.03,0.092
+15,Beauty & Personal Care,17.07,0.32
+16,Electronics,312.65,0.156
+17,Beauty & Personal Care,52.5,0.397
+18,Fashion,87.79,0.522
+19,Groceries,11.67,0.116
+20,Home & Living,12.88,0.349
+21,Electronics,133.96,0.18
+22,Beauty & Personal Care,51.4,0.282
+23,Fashion,77.07,0.303
+24,Electronics,199.11,0.157
+25,Groceries,16.22,0.109
+26,Electronics,369.34,0.139
+27,Fashion,54.24,0.519
+28,Groceries,31.37,0.054
+29,Groceries,37.83,0.055
+30,Fashion,55.04,0.444
+31,Home & Living,120.09,0.222
+32,Beauty & Personal Care,13.22,0.4
+33,Electronics,93.82,0.156
+34,Electronics,303.39,0.178
+35,Electronics,115.82,0.136
+36,Beauty & Personal Care,58.23,0.34
+37,Fashion,8.78,0.355
+38,Electronics,163.28,0.22
+39,Electronics,148.97,0.103
+40,Electronics,224.65,0.11
+41,Beauty & Personal Care,18.62,0.448
+42,Fashion,64.89,0.313
+43,Electronics,201.53,0.121
+44,Home & Living,27.21,0.288
+45,Groceries,21.21,0.124
+46,Fashion,80.85,0.362
+47,Beauty & Personal Care,55.61,0.354
+48,Electronics,133.18,0.201
+49,Electronics,52.79,0.167
+50,Electronics,299.78,0.134
+51,Home & Living,130.89,0.236
+52,Groceries,33.92,0.058
+53,Groceries,8.08,0.088
+54,Home & Living,129.57,0.222
+55,Groceries,35.27,0.073
+56,Groceries,19.2,0.085
+57,Electronics,82.53,0.213
+58,Groceries,18.65,0.119
+59,Fashion,53.9,0.425
+60,Electronics,261.97,0.208
+61,Home & Living,107.9,0.28
+62,Groceries,26.52,0.111
+63,Groceries,18.46,0.112
+64,Home & Living,72.1,0.314
+65,Groceries,38.82,0.146
+66,Home & Living,124.9,0.29
+67,Fashion,68.69,0.345
+68,Electronics,212.45,0.131
+69,Beauty & Personal Care,3.2,0.443
+70,Beauty & Personal Care,52.24,0.353
+71,Electronics,131.49,0.183
+72,Fashion,41.96,0.501
+73,Groceries,39.98,0.085
+74,Fashion,25.77,0.367
+75,Home & Living,23.07,0.259
+76,Beauty & Personal Care,3.99,0.273
+77,Home & Living,48.04,0.224
+78,Home & Living,112.5,0.216
+79,Home & Living,131.24,0.233
+80,Beauty & Personal Care,9.19,0.252
+81,Fashion,65.79,0.364
+82,Groceries,21.36,0.061
+83,Beauty & Personal Care,59.16,0.275
+84,Beauty & Personal Care,26.48,0.42
+85,Beauty & Personal Care,16.96,0.303
+86,Beauty & Personal Care,49.08,0.305
+87,Beauty & Personal Care,3.16,0.336
+88,Beauty & Personal Care,3.71,0.432
+89,Groceries,26.39,0.108
+90,Electronics,112.57,0.184
+91,Electronics,283.81,0.107
+92,Groceries,35.47,0.108
+93,Home & Living,120.95,0.239
+94,Beauty & Personal Care,9.96,0.39
+95,Beauty & Personal Care,48.25,0.327
+96,Groceries,2.9,0.132
+97,Groceries,9.83,0.084
+98,Home & Living,97.95,0.215
+99,Fashion,11.12,0.306
+100,Beauty & Personal Care,55.25,0.312
+101,Beauty & Personal Care,40.66,0.448
+102,Home & Living,103.72,0.279
+103,Beauty & Personal Care,32.69,0.325
+104,Fashion,55.98,0.54
+105,Beauty & Personal Care,47.92,0.335
+106,Fashion,33.26,0.521
+107,Groceries,7.16,0.135
+108,Electronics,131.83,0.186
+109,Home & Living,122.87,0.272
+110,Groceries,9.31,0.134
+111,Beauty & Personal Care,23.95,0.314
+112,Electronics,223.61,0.152
+113,Electronics,285.9,0.116
+114,Groceries,18.56,0.139
+115,Fashion,8.07,0.414
+116,Beauty & Personal Care,40.65,0.428
+117,Electronics,253.76,0.199
+118,Home & Living,41.18,0.253
+119,Electronics,379.17,0.206
+120,Groceries,23.2,0.098
+121,Beauty & Personal Care,28.71,0.262
+122,Electronics,361.26,0.198
+123,Home & Living,73.88,0.242
+124,Beauty & Personal Care,22.55,0.275
+125,Electronics,299.84,0.167
+126,Beauty & Personal Care,16.34,0.375
+127,Beauty & Personal Care,58.82,0.274
+128,Electronics,205.05,0.159
+129,Electronics,100.05,0.164
+130,Groceries,25.03,0.066
+131,Electronics,95.7,0.203
+132,Fashion,31.47,0.458
+133,Electronics,265.64,0.201
+134,Fashion,67.89,0.51
+135,Home & Living,97.53,0.267
+136,Groceries,16.96,0.088
+137,Beauty & Personal Care,26.85,0.276
+138,Fashion,41.04,0.397
+139,Groceries,3.31,0.078
+140,Groceries,30.57,0.108
+141,Beauty & Personal Care,48.95,0.359
+142,Home & Living,129.57,0.319
+143,Home & Living,23.76,0.347
+144,Home & Living,12.06,0.29
+145,Groceries,32.12,0.083
+146,Beauty & Personal Care,37.12,0.322
+147,Home & Living,18.49,0.201
+148,Electronics,74.15,0.112
+149,Groceries,25.21,0.103
+150,Fashion,43.71,0.473
+151,Home & Living,12.36,0.241
+152,Electronics,319.86,0.209
+153,Beauty & Personal Care,27.99,0.266
+154,Beauty & Personal Care,48.53,0.427
+155,Groceries,17.72,0.074
+156,Fashion,8.74,0.448
+157,Home & Living,137.38,0.302
+158,Fashion,31.97,0.461
+159,Electronics,339.54,0.157
+160,Home & Living,124.76,0.259
+161,Fashion,34.62,0.446
+162,Fashion,44.5,0.544
+163,Electronics,225.9,0.146
+164,Beauty & Personal Care,25.51,0.36
+165,Home & Living,59.69,0.308
+166,Fashion,37.36,0.396
+167,Fashion,57.44,0.315
+168,Fashion,60.71,0.426
+169,Beauty & Personal Care,28.82,0.394
+170,Groceries,30.81,0.135
+171,Beauty & Personal Care,24.36,0.315
+172,Home & Living,110.01,0.287
+173,Home & Living,98.45,0.283
+174,Fashion,70.68,0.348
+175,Fashion,52.24,0.34
+176,Home & Living,67.02,0.3
+177,Fashion,46.91,0.395
+178,Electronics,358.59,0.193
+179,Fashion,49.73,0.538
+180,Groceries,18.13,0.129
+181,Fashion,19.27,0.371
+182,Beauty & Personal Care,22.27,0.271
+183,Beauty & Personal Care,31.6,0.288
+184,Beauty & Personal Care,39.15,0.288
+185,Electronics,84.46,0.216
+186,Beauty & Personal Care,40.52,0.437
+187,Home & Living,78.58,0.205
+188,Fashion,53.82,0.44
+189,Fashion,6.27,0.515
+190,Home & Living,96.8,0.312
+191,Beauty & Personal Care,31.15,0.374
+192,Groceries,11.78,0.147
+193,Beauty & Personal Care,25.84,0.282
+194,Beauty & Personal Care,6.19,0.377
+195,Fashion,88.59,0.524
+196,Groceries,28.68,0.149
+197,Fashion,66.44,0.385
+198,Fashion,56.1,0.32
+199,Groceries,10.42,0.092
+200,Groceries,9.67,0.145
+201,Beauty & Personal Care,59.75,0.324
+202,Groceries,28.95,0.091
+203,Groceries,7.3,0.084
+204,Beauty & Personal Care,16.3,0.316
+205,Electronics,117.41,0.113
+206,Groceries,10.26,0.141
+207,Home & Living,21.93,0.249
+208,Fashion,49.92,0.389
+209,Groceries,21.67,0.054
+210,Home & Living,100.8,0.285
+211,Beauty & Personal Care,41.82,0.363
+212,Fashion,42.22,0.388
+213,Home & Living,41.7,0.275
+214,Home & Living,13.65,0.249
+215,Fashion,62.62,0.327
+216,Beauty & Personal Care,6.58,0.38
+217,Electronics,183.2,0.196
+218,Fashion,84.67,0.539
+219,Beauty & Personal Care,27.26,0.303
+220,Fashion,56.73,0.457
+221,Fashion,57.9,0.38
+222,Home & Living,18.93,0.232
+223,Electronics,95.59,0.115
+224,Groceries,37.2,0.051
+225,Beauty & Personal Care,37.31,0.439
+226,Fashion,35.6,0.432
+227,Fashion,64.14,0.379
+228,Electronics,211.95,0.198
+229,Beauty & Personal Care,45.49,0.412
+230,Beauty & Personal Care,59.28,0.324
+231,Beauty & Personal Care,45.58,0.371
+232,Home & Living,103.32,0.311
+233,Groceries,30.49,0.139
+234,Fashion,34.69,0.463
+235,Home & Living,49.24,0.289
+236,Home & Living,115.16,0.319
+237,Home & Living,68.82,0.276
+238,Fashion,33.38,0.342
+239,Electronics,133.79,0.209
+240,Groceries,13.74,0.147
+241,Fashion,25.53,0.481
+242,Beauty & Personal Care,35.71,0.389
+243,Home & Living,100.15,0.306
+244,Electronics,366.0,0.168
+245,Home & Living,19.5,0.241
+246,Beauty & Personal Care,43.37,0.349
+247,Home & Living,86.8,0.289
+248,Groceries,16.54,0.127
+249,Beauty & Personal Care,44.24,0.393
+250,Home & Living,110.14,0.334
+251,Groceries,24.62,0.147
+252,Home & Living,26.69,0.295
+253,Home & Living,110.37,0.272
+254,Home & Living,50.35,0.283
+255,Groceries,15.86,0.141
+256,Beauty & Personal Care,23.34,0.285
+257,Home & Living,90.69,0.259
+258,Home & Living,23.43,0.285
+259,Beauty & Personal Care,33.66,0.285
+260,Fashion,55.8,0.442
+261,Fashion,70.76,0.39
+262,Groceries,11.45,0.145
+263,Electronics,242.04,0.103
+264,Beauty & Personal Care,49.78,0.289
+265,Home & Living,120.05,0.306
+266,Groceries,38.81,0.147
+267,Fashion,28.32,0.492
+268,Groceries,14.04,0.113
+269,Groceries,24.71,0.055
+270,Electronics,41.87,0.107
+271,Electronics,86.06,0.131
+272,Beauty & Personal Care,54.7,0.354
+273,Fashion,72.74,0.51
+274,Home & Living,112.89,0.259
+275,Electronics,350.99,0.189
+276,Electronics,307.53,0.208
+277,Beauty & Personal Care,37.12,0.356
+278,Beauty & Personal Care,53.74,0.341
+279,Home & Living,123.62,0.208
+280,Home & Living,10.18,0.279
+281,Fashion,11.26,0.544
+282,Electronics,41.98,0.186
+283,Fashion,25.69,0.542
+284,Groceries,16.5,0.053
+285,Beauty & Personal Care,4.54,0.361
+286,Home & Living,148.14,0.347
+287,Electronics,161.42,0.158
+288,Electronics,76.16,0.163
+289,Home & Living,93.96,0.238
+290,Groceries,25.26,0.14
+291,Electronics,40.34,0.127
+292,Groceries,9.98,0.062
+293,Fashion,19.12,0.456
+294,Groceries,5.9,0.124
+295,Fashion,80.4,0.532
+296,Electronics,277.66,0.124
+297,Electronics,70.71,0.128
+298,Fashion,86.77,0.541
+299,Fashion,37.46,0.381
+300,Beauty & Personal Care,32.07,0.308
+301,Beauty & Personal Care,58.84,0.294
+302,Electronics,172.89,0.152
+303,Home & Living,27.51,0.257
+304,Home & Living,129.94,0.221
+305,Electronics,250.25,0.149
+306,Electronics,101.39,0.101
+307,Electronics,138.4,0.107
+308,Fashion,37.03,0.503
+309,Electronics,299.09,0.214
+310,Electronics,193.73,0.185
+311,Electronics,279.52,0.126
+312,Groceries,13.54,0.103
+313,Groceries,32.27,0.096
+314,Beauty & Personal Care,15.98,0.449
+315,Electronics,81.61,0.215
+316,Home & Living,123.27,0.326
+317,Fashion,72.57,0.352
+318,Groceries,26.04,0.126
+319,Electronics,308.45,0.133
+320,Home & Living,35.36,0.249
+321,Fashion,45.79,0.443
+322,Electronics,341.3,0.192
+323,Home & Living,104.66,0.24
+324,Groceries,20.2,0.084
+325,Fashion,24.97,0.303
+326,Fashion,33.85,0.364
+327,Fashion,53.61,0.316
+328,Beauty & Personal Care,18.42,0.259
+329,Fashion,59.52,0.442
+330,Fashion,33.69,0.337
+331,Beauty & Personal Care,57.6,0.367
+332,Electronics,284.48,0.164
+333,Electronics,330.35,0.208
+334,Fashion,37.53,0.473
+335,Home & Living,42.18,0.298
+336,Home & Living,65.88,0.201
+337,Electronics,383.99,0.204
+338,Beauty & Personal Care,19.58,0.45
+339,Groceries,14.05,0.096
+340,Groceries,34.35,0.08
+341,Electronics,202.19,0.18
+342,Home & Living,28.27,0.263
+343,Groceries,13.76,0.118
+344,Fashion,16.56,0.358
+345,Groceries,29.03,0.066
+346,Groceries,18.04,0.121
+347,Fashion,70.06,0.324
+348,Groceries,34.38,0.122
+349,Home & Living,57.5,0.315
+350,Electronics,302.19,0.172
+351,Beauty & Personal Care,34.83,0.397
+352,Electronics,399.73,0.169
+353,Home & Living,123.22,0.312
+354,Electronics,348.09,0.215
+355,Home & Living,37.03,0.225
+356,Home & Living,92.09,0.267
+357,Electronics,245.46,0.196
+358,Fashion,84.2,0.404
+359,Beauty & Personal Care,43.92,0.289
+360,Electronics,232.44,0.103
+361,Beauty & Personal Care,31.71,0.359
+362,Fashion,67.51,0.462
+363,Fashion,35.46,0.301
+364,Fashion,14.82,0.543
+365,Home & Living,139.13,0.249
+366,Electronics,133.19,0.152
+367,Fashion,63.64,0.389
+368,Beauty & Personal Care,6.84,0.331
+369,Fashion,27.15,0.381
+370,Fashion,18.85,0.465
+371,Groceries,22.01,0.077
+372,Home & Living,87.54,0.274
+373,Electronics,326.55,0.215
+374,Fashion,16.11,0.521
+375,Beauty & Personal Care,43.17,0.389
+376,Home & Living,62.4,0.252
+377,Beauty & Personal Care,3.32,0.446
+378,Beauty & Personal Care,37.57,0.33
+379,Home & Living,86.13,0.206
+380,Fashion,19.76,0.456
+381,Groceries,21.54,0.129
+382,Fashion,60.99,0.45
+383,Groceries,32.98,0.057
+384,Beauty & Personal Care,42.38,0.393
+385,Groceries,12.46,0.07
+386,Beauty & Personal Care,15.19,0.29
+387,Beauty & Personal Care,32.86,0.277
+388,Beauty & Personal Care,40.58,0.271
+389,Beauty & Personal Care,4.53,0.314
+390,Home & Living,36.86,0.348
+391,Electronics,149.08,0.127
+392,Electronics,110.84,0.145
+393,Home & Living,94.82,0.317
+394,Groceries,15.85,0.113
+395,Fashion,45.98,0.512
+396,Fashion,53.37,0.372
+397,Electronics,293.29,0.198
+398,Groceries,19.69,0.149
+399,Home & Living,133.07,0.23
+400,Groceries,31.9,0.11

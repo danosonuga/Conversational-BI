@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Conversational BI — Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F3F4F7;
+    --surface:#FFFFFF;
+    --surface-2:#F7F8FA;
+    --border:#E7E9EE;
+    --border-strong:#D6DAE1;
+    --text:#14171A;
+    --text-dim:#666E78;
+    --text-faint:#9BA3AE;
+    --user-bubble:#15181C;
+    --ok:#189A6C;
+    --ok-wash:#EAF7F2;
+    --amb:#D9860F;
+    --amb-wash:#FCF3E4;
+    --scope:#E14848;
+    --scope-wash:#FDECEC;
+    --series-1:#2F5FE0;
+    --series-2:#7C5CFC;
+    --series-3:#0EA5A5;
+    --series-4:#DB4C8B;
+    --grad-a:#F472B6;
+    --grad-b:#8B5CF6;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Plus Jakarta Sans',sans-serif;
+    display:flex;
+    justify-content:center;
+  }
+  .app{
+    width:100%;
+    max-width:760px;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  /* ---------- Header ---------- */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 22px 14px 22px;
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    flex-shrink:0;
+  }
+  .brand{display:flex;align-items:center;gap:11px;}
+  .brand-mark{
+    width:34px;height:34px;border-radius:10px;
+    background:linear-gradient(145deg,var(--grad-a),var(--grad-b));
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;color:#fff;font-weight:700;flex-shrink:0;
+    box-shadow:0 4px 10px -3px rgba(139,92,246,.45);
+  }
+  .brand h1{font-size:15px;margin:0;font-weight:700;letter-spacing:.1px;color:var(--text);}
+  .brand p{font-size:11.5px;margin:2px 0 0 0;color:var(--text-faint);}
+  .reset-btn{
+    background:var(--surface);border:1px solid var(--border-strong);color:var(--text-dim);
+    font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:11.5px;padding:7px 14px;border-radius:999px;
+    cursor:pointer;transition:.15s;
+  }
+  .reset-btn:hover{border-color:var(--text-dim);color:var(--text);}
+
+  /* ---------- Canvas ---------- */
+  .canvas{
+    flex:1;
+    overflow-y:auto;
+    padding:22px 20px 10px 20px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    background:var(--bg);
+  }
+  .canvas::-webkit-scrollbar{width:8px;}
+  .canvas::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:4px;}
+
+  .msg-user{
+    align-self:flex-end;
+    max-width:78%;
+    background:var(--user-bubble);
+    color:#fff;
+    padding:11px 16px;
+    border-radius:16px 16px 3px 16px;
+    font-size:14px;
+    font-weight:500;
+    box-shadow:0 6px 16px -8px rgba(20,23,26,.4);
+  }
+
+  .msg-system{
+    align-self:flex-start;
+    max-width:100%;
+    width:100%;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:16px 18px 17px 18px;
+    position:relative;
+    animation:rise .28s ease;
+    box-shadow:0 1px 2px rgba(20,24,32,.03), 0 10px 24px -16px rgba(20,24,32,.12);
+  }
+  /* Signature element: gradient-bordered "trust card" for fully resolved answers */
+  .msg-system.resolved{
+    border:1px solid transparent;
+    background:
+      linear-gradient(var(--surface), var(--surface)) padding-box,
+      linear-gradient(120deg,var(--grad-a),var(--grad-b)) border-box;
+  }
+  .msg-system.clarifying{
+    background:var(--amb-wash);
+    border:1px solid rgba(217,134,15,.25);
+  }
+  .msg-system.scope{
+    background:var(--scope-wash);
+    border:1px solid rgba(225,72,72,.25);
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .ack-text{font-size:14px;color:var(--text-dim);margin:0 0 13px 0;line-height:1.55;}
+  .ack-text strong{color:var(--text);font-weight:700;}
+
+  .chart-wrap{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:14px 10px 8px 10px;margin-bottom:12px;}
+  .chart-wrap svg{width:100%;height:auto;display:block;}
+  .axis-label{font-family:'IBM Plex Mono',monospace;font-size:9.5px;fill:var(--text-faint);}
+  .value-label{font-family:'IBM Plex Mono',monospace;font-size:10px;fill:var(--text);font-weight:600;}
+
+  .donut-legend{display:flex;flex-wrap:wrap;gap:10px 16px;padding:2px 4px 0 4px;}
+  .donut-legend-item{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--text-dim);}
+  .donut-legend-item .sw{width:9px;height:9px;border-radius:2px;flex-shrink:0;}
+  .donut-legend-item b{color:var(--text);font-family:'IBM Plex Mono',monospace;margin-left:2px;}
+
+  .explain-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--text-dim);
+    background:var(--surface-2);
+    border-left:3px solid var(--ok);
+    padding:9px 12px;
+    border-radius:0 8px 8px 0;
+    line-height:1.75;
+  }
+  .explain-tag b{color:var(--text);font-weight:600;}
+  .explain-tag .sep{color:var(--text-faint);margin:0 6px;}
+
+  .clarify-question{font-size:14px;color:var(--text);margin:0 0 12px 0;font-weight:600;}
+  .clarify-options{display:flex;flex-wrap:wrap;gap:8px;}
+  .clarify-chip{
+    background:var(--surface);
+    border:1.5px solid var(--amb);
+    color:var(--amb);
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-size:12.5px;
+    font-weight:600;
+    padding:8px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:.15s;
+  }
+  .clarify-chip:hover{background:var(--amb-wash);}
+  .clarify-chip:disabled{cursor:default;}
+
+  .scope-text{font-size:14px;color:var(--text);line-height:1.6;margin:0;}
+  .scope-text .redirect{color:var(--series-1);font-weight:600;}
+
+  .exploration-list{display:flex;flex-direction:column;gap:7px;margin:2px 0 12px 0;}
+  .exploration-list .row{font-size:12.5px;color:var(--text-dim);font-family:'IBM Plex Mono',monospace;}
+  .exploration-list .row b{color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;}
+
+  /* ---------- Composer ---------- */
+  .composer{
+    border-top:1px solid var(--border);
+    padding:14px 20px 16px 20px;
+    flex-shrink:0;
+    background:var(--surface);
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:11px;}
+  .starter-chip{
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    color:var(--text-dim);
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-weight:500;
+    font-size:12px;
+    padding:7px 12px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:.15s;
+  }
+  .starter-chip:hover{border-color:var(--series-1);color:var(--text);}
+  .input-row{display:flex;gap:10px;align-items:center;}
+  #textInput{
+    flex:1;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:'Plus Jakarta Sans',sans-serif;
+    font-size:14px;
+    padding:12px 18px;
+    border-radius:999px;
+    outline:none;
+  }
+  #textInput::placeholder{color:var(--text-faint);}
+  #textInput:focus{border-color:var(--series-1);background:var(--surface);}
+  #sendBtn{
+    width:42px;height:42px;flex-shrink:0;
+    background:var(--user-bubble);
+    color:#fff;
+    border:none;
+    font-size:16px;
+    border-radius:50%;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:.15s;
+  }
+  #sendBtn:hover{filter:brightness(1.3);}
+  .disclaimer{font-size:10.5px;color:var(--text-faint);text-align:center;margin:10px 0 0 0;}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">◈</div>
+      <div>
+        <h1>Conversational BI</h1>
+        <p>Wizard-of-Oz prototype · intent-driven dashboard</p>
+      </div>
+    </div>
+    <button class="reset-btn" id="resetBtn">Reset</button>
+  </header>
+
+  <main class="canvas" id="canvas"></main>
+
+  <footer class="composer">
+    <div class="chips" id="starterChips"></div>
+    <div class="input-row">
+      <input id="textInput" type="text" placeholder="Ask about revenue, products, or regions…" autocomplete="off" />
+      <button id="sendBtn" aria-label="Send">➤</button>
+    </div>
+    <p class="disclaimer">Wizard-of-Oz research prototype — all responses are simulated.</p>
+  </footer>
+</div>
+
+<script>
+/* =========================================================================
+   SYNTHETIC SEMANTIC LAYER (mirrors Fact_Transactions / Dim_Customer / Dim_Product
+   from Chapter 3.4 / 4.1)
+   ========================================================================= */
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const REGIONS = ['Lagos','Abuja','Port Harcourt','Kano'];
+const CATEGORIES = ['Electronics','Fashion','Home Goods','Beauty'];
+const SERIES_COLORS = ['var(--series-1)','var(--series-2)','var(--series-3)','var(--series-4)'];
+const NOW_INDEX = 9; // fictional "current month" anchor = October, for last-month/last-6-months math
+
+function seededRandom(seed){ let s = seed; return function(){ s = (s*9301+49297)%233280; return s/233280; }; }
+
+// Revenue by region across 12 months, with a deliberate Q3 dip in Lagos
+const revenueByRegion = {};
+REGIONS.forEach((region,ri)=>{
+  const rnd = seededRandom(ri*97+13);
+  const base = 4200000 - ri*550000;
+  revenueByRegion[region] = MONTHS.map((m,mi)=>{
+    let seasonal = 1 + 0.18*Math.sin((mi/12)*Math.PI*2);
+    if(region==='Lagos' && mi>=6 && mi<=8) seasonal *= 0.62; // Q3 anomaly
+    const noise = 0.9 + rnd()*0.2;
+    return Math.round(base*seasonal*noise);
+  });
+});
+
+const productStats = {};
+CATEGORIES.forEach((cat,ci)=>{
+  const rnd = seededRandom(ci*211+7);
+  productStats[cat] = {
+    revenue: Math.round((3200000-ci*430000)*(0.85+rnd()*0.3)),
+    margin: Math.round((38 - ci*4)*(0.9+rnd()*0.2)*10)/10,
+    units: Math.round((18000-ci*2600)*(0.85+rnd()*0.3))
+  };
+});
+
+const customers = { active:4820, inactive:2130 }; // Subscription_Status based
+
+// Individual customer records (Fact_Transactions grouped by Customer_ID)
+const CUSTOMERS = (function(){
+  const names = ['Adaeze Textiles','Kano Retail Grp','Zenith Traders','Bright Star Ent.','Coastal Imports','Metro Fashion Hub','Prime Foods NG','Horizon Electronics'];
+  const rnd = seededRandom(555);
+  return names.map((n,i)=>({
+    name:n,
+    revenue: Math.round((3200000-i*280000)*(0.85+rnd()*0.3)),
+    units: Math.round((900-i*70)*(0.85+rnd()*0.3))
+  })).sort((a,b)=>b.revenue-a.revenue);
+})();
+
+function sumRange(arr, monthIndices){
+  if(!monthIndices) return arr.reduce((a,b)=>a+b,0);
+  return monthIndices.reduce((s,i)=>s+arr[i],0);
+}
+
+/* =========================================================================
+   INTENT / ENTITY EXTRACTION  (implements Section 4.1.2 taxonomy)
+   ========================================================================= */
+const OUT_OF_SCOPE_TERMS = ['payroll','employee','staff','salary','headcount',' hr ','turnover','marketing spend','marketing budget','recruitment'];
+
+function extractTimeframe(text){
+  const q = text.match(/\bq([1-4])\b/i);
+  if(q){
+    const idx = parseInt(q[1])-1;
+    return { label: `Q${q[1]} (${MONTHS[idx*3]}–${MONTHS[idx*3+2]})`, months: [idx*3, idx*3+1, idx*3+2] };
+  }
+  for(let i=0;i<MONTHS.length;i++){
+    if(text.toLowerCase().includes(MONTHS[i].toLowerCase())){
+      return { label: MONTHS[i], months: [i] };
+    }
+  }
+  if(/last 6 months|past 6 months/.test(text)){
+    let idxs=[]; for(let k=5;k>=0;k--) idxs.push((NOW_INDEX-k+12)%12);
+    return { label: 'the last 6 months', months: idxs.sort((a,b)=>a-b) };
+  }
+  if(/last month|past month/.test(text)){
+    const idx = (NOW_INDEX-1+12)%12;
+    return { label: MONTHS[idx], months: [idx] };
+  }
+  if(/year.?to.?date|ytd/.test(text)){
+    let idxs=[]; for(let k=0;k<=NOW_INDEX;k++) idxs.push(k);
+    return { label: 'year-to-date', months: idxs };
+  }
+  if(/this year|all time|overall|in total/.test(text)){
+    return { label: 'all available data', months: null };
+  }
+  return null;
+}
+
+function extractDimension(text){
+  const t = text.toLowerCase();
+  const mentionedRegions = REGIONS.filter(r=>t.includes(r.toLowerCase()));
+  const mentionedCats = CATEGORIES.filter(c=>t.includes(c.toLowerCase()));
+  if(mentionedRegions.length) return { type:'region', values: mentionedRegions };
+  if(mentionedCats.length) return { type:'category', values: mentionedCats };
+  if(/region|regional|by area|city|cities/.test(t)) return { type:'region', values: REGIONS };
+  if(/product|products|category|categories/.test(t)) return { type:'category', values: CATEGORIES };
+  if(/customer|client|account/.test(t)) return { type:'customer', values: null };
+  return null;
+}
+
+function extractMetric(text){
+  const t = text.toLowerCase();
+  if(/revenue|sales\b/.test(t)) return { key:'revenue', label:'Total Revenue', ambiguous:false };
+  if(/discount/.test(t)) return { key:'discount', label:'Average Discount Rate', ambiguous:false };
+  if(/unit|order|transaction/.test(t)) return { key:'units', label:'Total Units Sold', ambiguous:false };
+  if(/best|top|worst|underperform/.test(t)) return { key:null, label:null, ambiguous:true, ambType:'ranking' };
+  if(/performance/.test(t)) return { key:null, label:null, ambiguous:true, ambType:'performance' };
+  if(/active/.test(t) && /customer/.test(t)) return { key:null, label:null, ambiguous:true, ambType:'active' };
+  return null;
+}
+
+function extractIntent(text){
+  const t = text.toLowerCase();
+  if(/compare|versus|\bvs\b|how does .* compare/.test(t)) return 'Data_Comparison';
+  if(/trend|over time|growth|month.?by.?month/.test(t)) return 'Trend_Analysis';
+  if(/what can|what data|available|explore|help me/.test(t)) return 'Schema_Exploration';
+  return 'Data_Retrieval';
+}
+
+function isOutOfScope(text){
+  const t = ' '+text.toLowerCase()+' ';
+  return OUT_OF_SCOPE_TERMS.some(term=>t.includes(term));
+}
+
+const AMBIGUITY_OPTIONS = {
+  ranking: [
+    { label:'Total Revenue', key:'revenue', metricLabel:'Total Revenue' },
+    { label:'Highest Profit Margin', key:'margin', metricLabel:'Average Profit Margin' },
+    { label:'Total Units Sold', key:'units', metricLabel:'Total Units Sold' }
+  ],
+  performance: [
+    { label:'Total Revenue', key:'revenue', metricLabel:'Total Revenue' },
+    { label:'Profit Margin', key:'margin', metricLabel:'Average Profit Margin' }
+  ],
+  active: [
+    { label:'Subscribed customers', key:'sub_active', metricLabel:'Subscribed Customers' },
+    { label:'Customers with recent purchases', key:'recent_active', metricLabel:'Customers With Recent Purchases' }
+  ]
+};
+
+/* =========================================================================
+   CONVERSATION STATE (multi-turn memory — FR5)
+   ========================================================================= */
+let memory = { metric:null, dimension:null, timeframe:null };
+let pendingClarification = null; // {ambType, dimension, timeframe, intent}
+
+/* =========================================================================
+   RENDERING HELPERS — SVG charts
+   ========================================================================= */
+function fmt(n){
+  if(n>=1000000) return '₦'+(n/1000000).toFixed(2)+'M';
+  if(n>=1000) return '₦'+(n/1000).toFixed(1)+'K';
+  return '₦'+n;
+}
+function fmtPlain(n){
+  if(n>=1000000) return (n/1000000).toFixed(2)+'M';
+  if(n>=1000) return (n/1000).toFixed(1)+'K';
+  return String(n);
+}
+
+function barChart(labels, values, unit){
+  const W=640,H=210,padL=10,padR=10,padB=26,padT=18;
+  const max = Math.max(...values)*1.15;
+  const bw = (W-padL-padR)/values.length;
+  let bars='', axis='';
+  values.forEach((v,i)=>{
+    const h = (v/max)*(H-padT-padB);
+    const x = padL + i*bw + bw*0.18;
+    const w = bw*0.64;
+    const y = H-padB-h;
+    const color = values.length>1 ? SERIES_COLORS[i%4] : 'var(--ok)';
+    bars += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${color}"/>`;
+    bars += `<text class="value-label" x="${x+w/2}" y="${y-7}" text-anchor="middle">${unit==='pct'?v+'%':fmtPlain(v)}</text>`;
+    axis += `<text class="axis-label" x="${x+w/2}" y="${H-8}" text-anchor="middle">${labels[i]}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${bars}${axis}</svg>`;
+}
+
+function lineChart(labels, values){
+  const W=640,H=210,padL=14,padR=14,padB=26,padT=24;
+  const max = Math.max(...values)*1.2, min = Math.min(...values)*0.85;
+  const range = max-min || 1;
+  const stepX = (W-padL-padR)/(values.length-1);
+  let pts = values.map((v,i)=>{
+    const x = padL+i*stepX;
+    const y = padT + (H-padT-padB)*(1-(v-min)/range);
+    return {x,y,v};
+  });
+  const path = pts.map((p,i)=>(i===0?'M':'L')+p.x.toFixed(1)+' '+p.y.toFixed(1)).join(' ');
+  let dots='', axis='', labelsSvg='';
+  pts.forEach((p,i)=>{
+    dots += `<circle cx="${p.x}" cy="${p.y}" r="3.2" fill="var(--ok)"/>`;
+    if(i===0||i===pts.length-1||i===Math.floor(pts.length/2)){
+      labelsSvg += `<text class="value-label" x="${p.x}" y="${p.y-10}" text-anchor="middle">${fmtPlain(p.v)}</text>`;
+    }
+    axis += `<text class="axis-label" x="${p.x}" y="${H-8}" text-anchor="middle">${labels[i]}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+    <path d="${path}" fill="none" stroke="var(--ok)" stroke-width="2.4"/>
+    ${dots}${labelsSvg}${axis}
+  </svg>`;
+}
+
+function donutChart(labels, values){
+  const total = values.reduce((a,b)=>a+b,0);
+  const r=62, cx=90, cy=90, circumference=2*Math.PI*r;
+  let offset=0, circles='';
+  const segs = values.map((v,i)=>{
+    const frac=v/total, dash=frac*circumference;
+    const seg = { dash, gap:circumference-dash, start:offset, color:SERIES_COLORS[i%4], pct:Math.round(frac*100) };
+    offset += dash;
+    return seg;
+  });
+  segs.forEach(s=>{
+    circles += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${s.color}" stroke-width="24"
+      stroke-dasharray="${s.dash} ${s.gap}" stroke-dashoffset="${-s.start}" transform="rotate(-90 ${cx} ${cy})"/>`;
+  });
+  const legend = labels.map((l,i)=>`<div class="donut-legend-item"><span class="sw" style="background:${segs[i].color.replace('var(','').replace(')','')==segs[i].color?segs[i].color:segs[i].color}"></span>${l} <b>${segs[i].pct}%</b></div>`).join('');
+  const svg = `<svg viewBox="0 0 180 180" style="max-width:180px;margin:0 auto;display:block;" xmlns="http://www.w3.org/2000/svg">${circles}</svg>`;
+  return `<div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap;justify-content:center;">${svg}<div class="donut-legend">${legend}</div></div>`;
+}
+
+/* =========================================================================
+   MESSAGE RENDERING
+   ========================================================================= */
+const canvas = document.getElementById('canvas');
+
+function addUserMessage(text){
+  const div = document.createElement('div');
+  div.className = 'msg-user';
+  div.textContent = text;
+  canvas.appendChild(div);
+  canvas.scrollTop = canvas.scrollHeight;
+}
+
+function statusRow(kind){
+  const map = { ok:['dot-ok','RESOLVED'], amb:['dot-amb','CLARIFYING'], scope:['dot-scope','OUT OF SCOPE'] };
+  const [cls,label] = map[kind];
+  return `<div class="status-row"><span class="dot ${cls}"></span><span class="status-label">${label}</span></div>`;
+}
+
+function addSystemCard(html){
+  const div = document.createElement('div');
+  div.className = 'msg-system';
+  div.innerHTML = html;
+  canvas.appendChild(div);
+  canvas.scrollTop = canvas.scrollHeight;
+  return div;
+}
+
+function renderClarification(question, options, ambType, ctx){
+  const chipsHtml = options.map((o,i)=>`<button class="clarify-chip" data-opt="${i}" data-ambtype="${ambType}">${o.label}</button>`).join('');
+  const html = statusRow('amb') + `
+    <p class="clarify-question">${question}</p>
+    <div class="clarify-options">${chipsHtml}</div>
+  `;
+  const card = addSystemCard(html);
+  pendingClarification = { ambType, ctx, options };
+  card.querySelectorAll('.clarify-chip').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const opt = options[parseInt(btn.dataset.opt)];
+      handleClarificationChoice(opt, ctx, ambType);
+      card.querySelectorAll('.clarify-chip').forEach(b=>b.disabled=true);
+      btn.style.background='rgba(47,191,143,.15)';
+      btn.style.borderColor='var(--ok)';
+      btn.style.color='var(--ok)';
+    });
+  });
+}
+
+function renderOutOfScope(msg){
+  addSystemCard(statusRow('scope') + `<p class="scope-text">${msg}</p>`);
+}
+
+function renderResolved(ackHtml, chartHtml, explainHtml){
+  addSystemCard(statusRow('ok') + `<p class="ack-text">${ackHtml}</p>` +
+    (chartHtml ? `<div class="chart-wrap">${chartHtml}</div>` : '') +
+    `<div class="explain-tag">${explainHtml}</div>`);
+}
+
+function renderExploration(){
+  const html = statusRow('ok') + `
+    <p class="ack-text">Here's what I can help you explore right now:</p>
+    <div class="exploration-list">
+      <div class="row"><b>Metrics</b> — revenue, units sold, discount rate, profit margin</div>
+      <div class="row"><b>Dimensions</b> — region (Lagos, Abuja, Port Harcourt, Kano), product category (Electronics, Fashion, Home Goods, Beauty)</div>
+      <div class="row"><b>Timeframes</b> — by quarter, by month, last 6 months, year-to-date, or all time</div>
+    </div>
+  `;
+  addSystemCard(html);
+}
+
+/* =========================================================================
+   RESOLUTION LOGIC — builds acknowledgment / chart / explainability
+   ========================================================================= */
+function buildAndRenderResult(intent, metric, dimension, timeframe){
+  const tfLabel = timeframe ? timeframe.label : 'all available data';
+  const tfMonths = timeframe ? timeframe.months : null;
+
+  let chartHtml = '', ack = '', explain = '';
+  const excludes = metric.key==='revenue' ? ' <span class="sep">·</span> Excludes: canceled orders' : '';
+
+  if(dimension && dimension.type==='region'){
+    const labels = dimension.values;
+    let values;
+    if(metric.key==='units') values = labels.map(r=>Math.round(sumRange(revenueByRegion[r],tfMonths)/38000));
+    else if(metric.key==='discount') values = labels.map(()=>Math.round((6+Math.random()*4)*10)/10);
+    else if(metric.key==='margin') values = labels.map((r,i)=>Math.round((34-i*3)*10)/10);
+    else values = labels.map(r=>sumRange(revenueByRegion[r],tfMonths));
+
+    if(intent==='Trend_Analysis' && labels.length===1){
+      const monthLabels = (tfMonths||MONTHS.map((_,i)=>i)).map(i=>MONTHS[i]);
+      const series = (tfMonths||MONTHS.map((_,i)=>i)).map(i=>revenueByRegion[labels[0]][i]);
+      chartHtml = lineChart(monthLabels, series);
+      ack = `Plotting <strong>${metric.label}</strong> trend for <strong>${labels[0]}</strong> across ${tfLabel}...`;
+      explain = `<b>Showing:</b> ${metric.label} <span class="sep">·</span> <b>Region:</b> ${labels[0]} <span class="sep">·</span> <b>Period:</b> ${tfLabel}${excludes}`;
+    } else {
+      chartHtml = barChart(labels, values, metric.key==='discount'?'pct':'num');
+      ack = `${intent==='Data_Comparison'?'Comparing':'Calculating'} <strong>${metric.label}</strong> ${labels.length>1?'across':'for'} <strong>${labels.join(', ')}</strong> — ${tfLabel}...`;
+      explain = `<b>Showing:</b> ${metric.label} <span class="sep">·</span> <b>Grouped by:</b> Region <span class="sep">·</span> <b>Filtered:</b> ${tfLabel}${excludes}`;
+    }
+  } else if(dimension && dimension.type==='category'){
+    const labels = dimension.values;
+    let values;
+    if(metric.key==='margin') values = labels.map(c=>productStats[c].margin);
+    else if(metric.key==='units') values = labels.map(c=>productStats[c].units);
+    else values = labels.map(c=>productStats[c].revenue);
+
+    if(/share|proportion|percentage/.test('')){ /* reserved for future */ }
+    chartHtml = barChart(labels, values, metric.key==='margin'?'pct':'num');
+    ack = `${intent==='Data_Comparison'?'Comparing':'Ranking'} <strong>${metric.label}</strong> across <strong>product categories</strong> — ${tfLabel}...`;
+    explain = `<b>Showing:</b> ${metric.label} <span class="sep">·</span> <b>Grouped by:</b> Product Category <span class="sep">·</span> <b>Filtered:</b> ${tfLabel}${excludes}`;
+  } else if(dimension && dimension.type==='customer'){
+    const top = CUSTOMERS.slice(0,5);
+    const labels = top.map(c=>c.name);
+    const values = metric.key==='units' ? top.map(c=>c.units) : top.map(c=>c.revenue);
+    chartHtml = barChart(labels, values, 'num');
+    ack = `Identifying our <strong>top 5 customers</strong> by <strong>${metric.label}</strong> — ${tfLabel}...`;
+    explain = `<b>Showing:</b> Top 5 Customers <span class="sep">·</span> <b>Ranked by:</b> ${metric.label} <span class="sep">·</span> <b>Source:</b> Fact_Transactions grouped by Customer_ID`;
+  } else {
+    // no dimension — single aggregate or trend across all regions
+    if(intent==='Trend_Analysis'){
+      const monthLabels = (tfMonths||MONTHS.map((_,i)=>i)).map(i=>MONTHS[i]);
+      const totals = (tfMonths||MONTHS.map((_,i)=>i)).map(i=>REGIONS.reduce((s,r)=>s+revenueByRegion[r][i],0));
+      chartHtml = lineChart(monthLabels, totals);
+      ack = `Plotting <strong>${metric.label}</strong> trend across all regions — ${tfLabel}...`;
+      explain = `<b>Showing:</b> ${metric.label} <span class="sep">·</span> <b>Scope:</b> All Regions <span class="sep">·</span> <b>Period:</b> ${tfLabel}${excludes}`;
+    } else {
+      const total = REGIONS.reduce((s,r)=>s+sumRange(revenueByRegion[r],tfMonths),0);
+      chartHtml = '';
+      ack = `Calculating <strong>${metric.label}</strong> — ${tfLabel}...`;
+      explain = `<b>Result:</b> ${fmt(total)} <span class="sep">·</span> <b>Scope:</b> All Regions <span class="sep">·</span> <b>Period:</b> ${tfLabel}${excludes}`;
+    }
+  }
+  renderResolved(ack, chartHtml, explain);
+  memory = { metric, dimension: dimension||memory.dimension, timeframe: timeframe||memory.timeframe };
+}
+
+function handleClarificationChoice(opt, ctx, ambType){
+  let metric;
+  if(ambType==='active'){
+    const val = opt.key==='sub_active' ? customers.active : Math.round(customers.active*0.71);
+    addSystemCard(statusRow('ok') + `<p class="ack-text">Resolving to <strong>${opt.metricLabel}</strong>...</p>` +
+      `<div class="explain-tag"><b>Result:</b> ${val.toLocaleString()} customers <span class="sep">·</span> <b>Definition:</b> ${opt.label} <span class="sep">·</span> <b>Segment:</b> Dim_Customer.Subscription_Status</div>`);
+    return;
+  }
+  metric = { key: opt.key, label: opt.metricLabel, ambiguous:false };
+  buildAndRenderResult(ctx.intent, metric, ctx.dimension, ctx.timeframe);
+}
+
+/* =========================================================================
+   MAIN QUERY HANDLER — implements the JSON envelope logic from 4.1.3
+   ========================================================================= */
+function handleQuery(text){
+  addUserMessage(text);
+
+  // 1. Out-of-scope check
+  if(isOutOfScope(text)){
+    renderOutOfScope(`I don't have access to HR, payroll, or marketing data — my available data covers <b>transactions</b>, <b>customers</b>, and <b>product performance</b>. Would you like to see <span class="redirect">revenue or customer retention trends instead?</span>`);
+    return;
+  }
+
+  const intent = extractIntent(text);
+
+  if(intent==='Schema_Exploration'){
+    renderExploration();
+    return;
+  }
+
+  let metric = extractMetric(text);
+  let dimension = extractDimension(text);
+  let timeframe = extractTimeframe(text);
+
+  // Multi-turn memory fallback (FR5)
+  if(!metric && memory.metric) metric = memory.metric;
+  if(!dimension && memory.dimension && (intent==='Data_Comparison'||text.split(' ').length<6)) dimension = memory.dimension;
+  if(!timeframe && memory.timeframe) timeframe = memory.timeframe;
+
+  if(!metric){
+    renderOutOfScope(`I couldn't identify a metric in that question. Try asking about <b>revenue</b>, <b>units sold</b>, <b>discount rate</b>, or <b>profit margin</b> — or ask <span class="redirect">"what can you tell me about?"</span> to see everything available.`);
+    return;
+  }
+
+  if(metric.ambiguous){
+    let options = AMBIGUITY_OPTIONS[metric.ambType];
+    let question;
+    if(metric.ambType==='active'){
+      question = `To find <b>active customers</b>, would you like me to define "active" as:`;
+    } else if(metric.ambType==='ranking'){
+      if(dimension && dimension.type==='customer'){
+        options = [
+          { label:'Total Revenue', key:'revenue', metricLabel:'Total Revenue' },
+          { label:'Total Units Purchased', key:'units', metricLabel:'Total Units Purchased' }
+        ];
+        question = `To find our <b>top spending customers</b>, would you like me to rank by:`;
+      } else if(dimension && dimension.type==='category'){
+        question = `To find the <b>best products</b>, would you like me to sort by:`;
+      } else {
+        question = `To find the <b>best performers</b>, would you like me to sort by:`;
+      }
+    } else {
+      question = `To measure <b>performance</b>, would you like me to use:`;
+    }
+    renderClarification(question, options, metric.ambType, { intent, dimension, timeframe });
+    return;
+  }
+
+  buildAndRenderResult(intent, metric, dimension, timeframe);
+}
+
+/* =========================================================================
+   UI WIRING
+   ========================================================================= */
+const STARTERS = [
+  'Show total revenue by region for Q3',
+  'What were our best products?',
+  'Revenue trend last 6 months',
+  'How does Lagos compare to Kano?',
+  'What can you tell me about?'
+];
+
+function renderStarters(){
+  const wrap = document.getElementById('starterChips');
+  wrap.innerHTML = STARTERS.map(s=>`<button class="starter-chip">${s}</button>`).join('');
+  wrap.querySelectorAll('.starter-chip').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      handleQuery(btn.textContent);
+    });
+  });
+}
+
+document.getElementById('sendBtn').addEventListener('click', ()=>{
+  const input = document.getElementById('textInput');
+  const val = input.value.trim();
+  if(!val) return;
+  handleQuery(val);
+  input.value='';
+});
+document.getElementById('textInput').addEventListener('keydown', (e)=>{
+  if(e.key==='Enter'){ document.getElementById('sendBtn').click(); }
+});
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  canvas.innerHTML='';
+  memory = { metric:null, dimension:null, timeframe:null };
+  pendingClarification = null;
+  addSystemCard(statusRow('ok') + `<p class="ack-text">Conversation reset. Ask me about revenue, product performance, or customer activity across our four regions.</p>`);
+});
+
+renderStarters();
+addSystemCard(statusRow('ok') + `<p class="ack-text">Hi — I'm your conversational data assistant. I have access to <strong>transactions</strong>, <strong>customers</strong>, and <strong>product</strong> data across Lagos, Abuja, Port Harcourt, and Kano. Try one of the prompts below, or ask your own question.</p>`);
+</script>
+</body>
+</html>

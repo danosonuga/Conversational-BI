@@ -1,0 +1,11 @@
+query,expected,actual,correct,latency_ms
+Show me total revenue by region for Q3,Data_Comparison,Data_Comparison,True,22.712
+What was our total revenue in Q3?,Data_Retrieval,Data_Retrieval,True,15.864
+Show me our best products,Clarification_Required,Clarification_Required,True,0.018
+Show me our worst performing assets,Clarification_Required,Clarification_Required,True,0.007
+Compare profit margin by category,Data_Comparison,Data_Comparison,True,15.815
+Show me employee payroll costs,Out_Of_Scope,Out_Of_Scope,True,0.012
+How did the Western region do in Q2?,Data_Retrieval,Out_Of_Scope,False,0.006
+"Q3 revenue please, broken down region by region",Data_Comparison,Data_Comparison,True,16.811
+gimme the sales numbers for q3 across regions,Data_Comparison,Data_Comparison,True,16.04
+Can you break revenue down regionally for the third quarter?,Data_Comparison,Data_Comparison,True,15.417
